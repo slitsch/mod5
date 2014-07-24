@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <style>
+        body {
+            background-color: #ccc;
+            margin:0;
+            padding:0;
+        }
+        #container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 25px;
+            border: 1px solid #999999;
+            background-color: #fff;
+        }
+        input.error {
+            background-color: red;
+       }
+    </style>
+    <title></title>
+</head>
+<body>
+<div id="container">
+    <form method="post">
+        <label>Email:</label>
+        <input class="email" type="text" name="email" placeholder="email" />
+        <label>Password:</label>
+        <input class="password" type="text" name="password" />
+        <input type="submit" name="submit" value="submit"/>
+        <button id="add">Add</button>
+        <hr />
+
+    </form>
+
+    <div id = container2>
+        <form method="post">
+            <label>Name:</label>
+            <input class="name" type="text" name="name" placeholder="name" data-type="string" />
+            <label>Hours:</label>
+            <input class="hours" type="text" name="hours" data-type="number" />
+            <input type="submit" name="submit" value="submit"/>
+            <button id="add2">Add</button>
+        </form>
+        <hr />
+            <table id="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Hours</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="row">
+                    <td></td>
+                    <td></td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="template">
+                <tr>
+                <td class="name"></td>
+                <td class="hours"></td>
+                </tr>
+            </table>
+
+
+    </div>
+    <script>
+        $(document).ready(function($) {
+//            can use this, once or more for code using jquery
+//            use a var email = $("input.email") for multiple uses and only one lookup in DOM
+            $("input.email").on('blur', function(event){
+                console.log(event);
+                var el = $(this);
+                var value = el.val();
+                if (!value.match(/@/)){
+                    el.addClass('error')
+                } else{
+                    el.removeClass('error')
+                }
+            })
+        });
+
+        var input_name = $("input.name");
+        var input_hours = $("input.hours");
+        var add_button = $("#add2");
+        var table = $("#table tbody");
+        var row_template = $("table.template tr.row");
+
+        $("#table tbody tr").on('click', function() {
+            $('this').find("td:first").text();
+            alert(name);
+        });
+
+        add_button.on("click", function(){
+            //alert(input_name.val() + " " + input_hours.val()); //debug popup
+            if (!validate(input_name, input_hours)){
+                return alert("Invalid");
+            }
+            if (!input_name.val().trim() || !input_hours.val().trim()){
+                return;
+            }
+            var row = table.template.row_template.clone();
+            row.find("name").text(input_name.val());
+            row.find("hours").text(input_hours.val());
+            table.append(row);
+
+            input_name.val("");
+            input_hours.val("");
+             });
+        }
+        function validate(elements){
+            var valid = true;
+            elements.forEach(function(el){
+                var passed = false;
+            switch(el.data('type')){
+                case 'number':
+                    passed = !isNaN(parseFloat(el.val()));
+                    break;
+                default:
+                    passed  = !!el.val().trim();
+                    break;
+                }
+                if (!passed ) valid=false;
+            });
+            return valid;
+        }
+    </script>
+
+</div>
+
+</body>
+</html>

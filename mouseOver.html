@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+        <!--Use mouseOver or mouseEnter - change colors, mouseOut, click (remain highlighted)-->
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <style>
+        #box {
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            background-color: gray;
+        }
+        #box.onClk {
+            background-color: purple !important;
+         }
+        #box.onMouseOver {
+            background-color: green;
+        }
+    </style>
+
+
+    <title>Test mouse over, off, and click</title>
+</head>
+<body>
+<div id="box">
+Test Box
+</div>
+<script>
+    $(document).ready(function($) {
+        var box = $('#box');
+        var state = false;
+
+        box.on('mouseover', function () {
+            box.addClass('onMouseOver');
+        });
+        box.on('mouseout', function () {
+            box.removeClass('onMouseOver');
+            box.css('font-size', 14);
+        });
+
+//        box.on('click', function($){
+//            box.removeClass('onMouseOver');
+//            if (state){
+//                state=false;
+//                box.removeClass('onClk')
+//            } else {
+//                state=true;
+//                box.addClass('onClk');
+//            }
+//
+//        });
+        box.on('click', function ($) {
+//            box.removeClass('onMouseOver'); use !important in css instead to prioritze
+            box.toggleClass('onClk');
+            box.css('font-size', 24)
+        });
+        });
+  var el =  $('<div/>').css('border', '1px solid green')
+          .attr('id', 'box')
+          .addClass('something');
+    $('body').append(el);
+
+</script>
+
+</body>
+</html>
